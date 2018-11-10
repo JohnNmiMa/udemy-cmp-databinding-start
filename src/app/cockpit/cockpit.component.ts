@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import {Component, OnInit, EventEmitter, Output, ViewChild, ElementRef} from '@angular/core';
 
 @Component({
   selector: 'app-cockpit',
@@ -6,11 +6,12 @@ import { Component, OnInit, EventEmitter, Output } from '@angular/core';
   styleUrls: ['./cockpit.component.css']
 })
 export class CockpitComponent implements OnInit {
+  // Create custom events to signal the parent when servers and blueprints are created.
   @Output() serverCreated = new EventEmitter<{serverName: string, serverContent: string}>();
-  // @Output('bpCreated') blueprintCreated = new EventEmitter<{serverName: string, serverContent: string}>();
   @Output('blueprintCreated') bpCreated = new EventEmitter<{serverName: string, serverContent: string}>();
   // newServerName = '';
-
+  // newServerContent = '';
+  @ViewChild('serverContentInput') serverContentInput: ElementRef;
 
   constructor() { }
 
@@ -19,10 +20,18 @@ export class CockpitComponent implements OnInit {
   }
 
   onAddServer(nameInput: HTMLInputElement) {
-    this.serverCreated.emit({serverName: this.newServerName, serverContent: nameInput.value});
+    console.log(nameInput);
+    console.log(this.serverContentInput);
+    this.serverCreated.emit({
+      serverName: nameInput.value,
+      serverContent: this.serverContentInput.nativeElement.value
+    });
   }
 
   onAddBlueprint(nameInput: HTMLInputElement) {
-    this.bpCreated.emit({serverName: this.newServerName, serverContent: nameInput.value});
+    this.bpCreated.emit({
+      serverName: nameInput.value,
+      serverContent: this.serverContentInput.nativeElement.value
+    });
   }
 }
