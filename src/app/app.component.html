@@ -6,7 +6,17 @@
   <hr>
   <div class="row">
     <div class="col-xs-12">
+      <button class="btn btn-primary" (click)="onChangeFirst()">Change first Element</button>
+      <button class="btn btn-primary" (click)="onDestroyFirst()">Destroy first Element</button>
       <app-server-element *ngFor="let serverElement of serverElements" [srvElement]="serverElement">
+        <!--This is demonstrating content projection (like AngularJS transclusion)-->
+        <!--  Used to create re-usable components where the content changes, but the general-->
+        <!--  look and feel of the component is fixed.-->
+        <p #contentParagraph>
+          <!-- ^^ using Local Reference contentParagraph to showcase the @ContentChild property in the server-element component-->
+          <strong *ngIf="serverElement.type === 'server'" style="color: red">{{ serverElement.content }}</strong>
+          <em *ngIf="serverElement.type === 'blueprint'">{{ serverElement.content }}</em>
+        </p>
       </app-server-element>
     </div>
   </div>
