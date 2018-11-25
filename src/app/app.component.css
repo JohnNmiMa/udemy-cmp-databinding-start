@@ -2,3 +2,10 @@
   margin-top: 30px;
 }
 
+.app-chooser hr {
+  max-width:200px;
+}
+label, label input[type=radio], .or {
+  margin-right:10px;
+}
+

@@ -7,6 +7,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   serverElements = [{type: 'server', name: 'Testserver', content: 'Just a test!'}];
+  appType: String = 'GameController';
+  oddTime: number;
+  evenTime: number;
 
   onServerAdded(serverData: {serverName: string, serverContent: string}) {
     this.serverElements.push({
@@ -22,6 +25,16 @@ export class AppComponent {
       name: blueprintData.serverName,
       content: blueprintData.serverContent
     });
+  }
+
+  onGameTime(gameTime: number) {
+      if (gameTime % 2 === 0) {
+          this.evenTime = gameTime;
+          this.oddTime = null;
+      } else {
+          this.oddTime = gameTime;
+          this.evenTime = null;
+      }
   }
 
   onChangeFirst() {

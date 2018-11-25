@@ -1,23 +1,40 @@
 <div class="container">
-  <app-cockpit
-    (serverCreated)="onServerAdded($event)"
-    (blueprintCreated)="onBlueprintAdded($event)">
-  </app-cockpit>
-  <hr>
-  <div class="row">
-    <div class="col-xs-12">
-      <button class="btn btn-primary" (click)="onChangeFirst()">Change first Element</button>
-      <button class="btn btn-primary" (click)="onDestroyFirst()">Destroy first Element</button>
-      <app-server-element *ngFor="let serverElement of serverElements" [srvElement]="serverElement">
-        <!--This is demonstrating content projection (like AngularJS transclusion)-->
-        <!--  Used to create re-usable components where the content changes, but the general-->
-        <!--  look and feel of the component is fixed.-->
-        <p #contentParagraph>
-          <!-- ^^ using Local Reference contentParagraph to showcase the @ContentChild property in the server-element component-->
-          <strong *ngIf="serverElement.type === 'server'" style="color: red">{{ serverElement.content }}</strong>
-          <em *ngIf="serverElement.type === 'blueprint'">{{ serverElement.content }}</em>
-        </p>
-      </app-server-element>
+  <div class="app-chooser">
+    <label><input type="radio" name="optradio" [value]="'ServerCreator'" [(ngModel)]="appType">
+      Server Creator</label>
+    <span class="or"> OR </span>
+    <label><input type="radio" name="optradio" [value]="'GameController'" [(ngModel)]="appType">
+      Game Controller</label>
+    <hr>
+  </div>
+
+  <div *ngIf="appType === 'ServerCreator'">
+    <app-cockpit
+      (serverCreated)="onServerAdded($event)"
+      (blueprintCreated)="onBlueprintAdded($event)">
+    </app-cockpit>
+    <hr>
+    <div class="row">
+      <div class="col-xs-12">
+        <button class="btn btn-primary" (click)="onChangeFirst()">Change first Element</button>
+        <button class="btn btn-primary" (click)="onDestroyFirst()">Destroy first Element</button>
+        <app-server-element *ngFor="let serverElement of serverElements" [srvElement]="serverElement">
+          <!--This is demonstrating content projection (like AngularJS transclusion)-->
+          <!--  Used to create re-usable components where the content changes, but the general-->
+          <!--  look and feel of the component is fixed.-->
+          <p #contentParagraph>
+            <!-- ^^ using Local Reference contentParagraph to showcase the @ContentChild property in the server-element component-->
+            <strong *ngIf="serverElement.type === 'server'" style="color: red">{{ serverElement.content }}</strong>
+            <em *ngIf="serverElement.type === 'blueprint'">{{ serverElement.content }}</em>
+          </p>
+        </app-server-element>
+      </div>
     </div>
+  </div>
+
+  <div *ngIf="appType === 'GameController'">
+    <app-game-controller (gameTime)="onGameTime($event)"></app-game-controller>
+    <app-odd *ngIf="oddTime" [gameTime]="oddTime"></app-odd>
+    <app-even *ngIf="evenTime" [gameTime]="evenTime"></app-even>
   </div>
 </div>
